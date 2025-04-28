@@ -50,7 +50,7 @@ const CustomEditor: React.FC<CustomEditorProps> = ({ onChange, initialContent })
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={initialContent || '<p>Start writing here...</p>'} // <-- FIX: use initialContent
+      data={initialContent || ''} // <-- FIX: use initialContent
       config={{
         licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDcwOTQzOTksImp0aSI6Ijk5M2U4OTU2LTIwZmItNDhlMC1iNWU3LTA3Y2UzYWI2MjRiNSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6Ijc4NTJiYjg1In0.6q-R9yAazsaCmn5X1HAYlj4eF9VRUZ1Lm-BI7uHGCeshPUvdpoOFfh4wAN1HLuWpBic31JhyrkBfABLbhhHhaQ', // (keep your key)
         plugins: [
