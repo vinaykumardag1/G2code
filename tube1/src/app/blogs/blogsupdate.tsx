@@ -31,10 +31,10 @@ const BlogsUpdate: React.FC = () => {
     const fetchBlogs = async () => {
       try {
         if (id) {
-          const response = await axios.get(`http://localhost:5000/blogs/blogs-data/${id}`);
+          const response = await axios.get(`https://g2code.onrender.com/blogs/blogs-data/${id}`);
           setEditBlog(response.data.blog);
         } else {
-          const response = await axios.get('http://localhost:5000/blogs/blogs-data');
+          const response = await axios.get('https://g2code.onrender.com/blogs/blogs-data');
           if (Array.isArray(response.data.blogs)) {
             setBlogs(response.data.blogs);
           } else {
