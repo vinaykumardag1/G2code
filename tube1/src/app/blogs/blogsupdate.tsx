@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
-import CustomEditor from '@/components/customeditor/custom_editor';
+import CustomEditor from '@/components/customeditor/custom_editor'; // Just import it normally ✅
 
 interface BlogPost {
   _id: string;
@@ -21,29 +20,23 @@ interface BlogPost {
 }
 
 const BlogsUpdate: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Use useParams to get the dynamic 'id'
+  const { id } = useParams<{ id: string }>();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [editBlog, setEditBlog] = useState<BlogPost | null>(null);
 
-  // Fetch blog data
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         if (id) {
-          // Fetch single blog by id
           const response = await axios.get(`http://localhost:5000/blogs/blogs-data/${id}`);
-          const data = response.data;
-          setEditBlog(data.blog); // Update the state directly with the fetched blog
+          setEditBlog(response.data.blog);
         } else {
-          // Fetch all blogs if no id is present
           const response = await axios.get('http://localhost:5000/blogs/blogs-data');
-          const data = response.data;
-
-          if (Array.isArray(data.blogs)) {
-            setBlogs(data.blogs);
+          if (Array.isArray(response.data.blogs)) {
+            setBlogs(response.data.blogs);
           } else {
             throw new Error('Invalid response format. Expected an array of blogs.');
           }
@@ -68,7 +61,7 @@ const BlogsUpdate: React.FC = () => {
     if (!confirm('Are you sure you want to delete this blog?')) return;
 
     try {
-      const response = await axios.delete(`http://localhost:5000/blogs/delete-blog/${_id}`);
+      const response = await axios.delete(`https://g2code.onrender.com/blogs/delete-blog/${_id}`);
       if (response.status === 200) {
         setMessage('✅ Blog deleted successfully!');
         setBlogs(blogs.filter((blog) => blog._id !== _id));
@@ -81,14 +74,11 @@ const BlogsUpdate: React.FC = () => {
     }
   };
 
-  function handleEditorChange(data: string) {
+  const handleEditorChange = (data: string) => {
     if (editBlog) {
-      setEditBlog((prevBlog) => ({
-        ...prevBlog,
-        paragraph: data, // Update the paragraph content in editBlog
-      }));
+      setEditBlog((prevBlog) => prevBlog ? { ...prevBlog, paragraph: data } : null);
     }
-  }
+  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (editBlog) {
@@ -100,7 +90,7 @@ const BlogsUpdate: React.FC = () => {
     if (!editBlog) return;
 
     try {
-      const response = await axios.put(`http://localhost:5000/blogs/update-blog/${editBlog._id}`, editBlog);
+      const response = await axios.put(`https://g2code.onrender.com/blogs/update-blog/${editBlog._id}`, editBlog);
       if (response.status === 200) {
         setMessage('✅ Blog updated successfully!');
         setBlogs(blogs.map((blog) => (blog._id === editBlog._id ? editBlog : blog)));
@@ -129,18 +119,16 @@ const BlogsUpdate: React.FC = () => {
               <tr>
                 <th className="border border-gray-300 p-2">Author Image</th>
                 <th className="border border-gray-300 p-2">Title</th>
-           
                 <th className="border border-gray-300 p-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {blogs.map((blog) => (
                 <tr key={blog._id} className="hover:bg-gray-100">
-                
                   <td className="border border-gray-300 p-2">
                     {blog.author.imageUrl ? (
                       <img
-                        src={`http://localhost:5000${blog.author.imageUrl}`}
+                        src={`https://g2code.onrender.com/${blog.author.imageUrl}`}
                         alt={blog.author.name}
                         className="w-12 h-12 rounded-full"
                       />
@@ -149,7 +137,6 @@ const BlogsUpdate: React.FC = () => {
                     )}
                   </td>
                   <td className="border border-gray-300 p-2">{blog.title}</td>
-                 
                   <td className="border border-gray-300 p-2">
                     <button
                       className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 mr-2"
@@ -183,8 +170,8 @@ const BlogsUpdate: React.FC = () => {
 
               <div className="border border-gray-300 rounded">
                 <CustomEditor
-                  onChange={handleEditorChange} // Correctly pass the function
-                  initialContent={editBlog.paragraph} // Assuming CustomEditor needs the initial content
+                  onChange={handleEditorChange}
+                  initialContent={editBlog.paragraph || ''}
                 />
               </div>
 

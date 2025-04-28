@@ -28,7 +28,7 @@ const Blog: React.FC = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/blogs/blogs-data');
+        const response = await axios.get('https://g2code.onrender.com/blogs/blogs-data');
         const data = response.data;
 
         console.log('Blogs:', data); // Debugging: check what data is returned

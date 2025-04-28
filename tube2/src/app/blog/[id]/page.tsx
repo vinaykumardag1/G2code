@@ -29,7 +29,7 @@ const BlogDetailsPage = () => {
     const fetchBlog = async () => {
       try {
         if (id) {
-          const response = await axios.get(`http://localhost:5000/blogs/blogs-data/${id}`);
+          const response = await axios.get(`https://g2code.onrender.com/blogs/blogs-data/${id}`);
           const data = response.data;
           setBlog(data.blog);
         }
