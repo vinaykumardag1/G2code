@@ -71,7 +71,7 @@ const CreateBlogPage: React.FC = () => {
     formData.append('publishDate', blog.publishDate); // Ensure this line is not commented out
 
     try {
-      const response = await fetch('http://localhost:5000/blogs/create-blog', {
+      const response = await fetch('https://g2code.onrender.com/blogs/create-blog', {
         method: 'POST',
         body: formData,
       });
